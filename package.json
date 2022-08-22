@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.1",
+    "eslint": "^8.22.0",
+    "glob": "^8.0.3",
+    "mongoose": "^6.5.2",
+    "pretty-ms": "^8.0.0",
+    "undici": "^5.9.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.22.0"
+  },
+  "name": "naoki-discord-bot",
+  "type": "module",
+  "description": "Naoki é um bot do Discord multiuso com as funções mais necessárias essenciais para seu servidor!",
+  "version": "v0.3",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NaokiBot/Naoki.git"
+  },
+  "author": "rtsuki (gb#8310)",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/NaokiBot/Naoki/issues"
+  },
+  "homepage": "https://github.com/NaokiBot/Naoki#readme"
+}
