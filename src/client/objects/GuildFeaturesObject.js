@@ -1,0 +1,25 @@
+const Features = {
+    'COMMUNITY': 'Comunidade',
+    'NEWS': 'Novidades',
+    'ANIMATED_BANNER': 'Banner animado',
+    'ANIMATED_ICON': 'Ícone animado',
+    'AUTO_MODERATION': 'Moderação automática',
+    'BANNER': 'Banner',
+    'DISCOVERABLE': 'Descobrível',
+    'FEATURABLE': 'Apresentável',
+    'INVITE_SPLASH': 'Imagem de convite',
+    'MEMBER_VERIFICATION_GATE_ENABLED': 'Porta para verificação de membros',
+    'MONETIZATION_ENABLED': 'Monetização ativada',
+    'MORE_STICKERS': 'Mais figurinhas',
+    'PARTNERED': 'Parceiro do Discord',
+    'PREVIEW_ENABLED': 'Visualização ativada',
+    'PRIVATE_THREADS': 'Tópicos privados',
+    'ROLE_ICONS': 'Ícone de cargos',
+    'TICKETED_EVENTS_ENABLED': 'Eventos com ingresso',
+    'VANITY_URL': 'Convite personalizado',
+    'VERIFIED': 'Verificado',
+    'VIP_REGIONS': 'Taxa de bits de 384KB/s',
+    'WELCOME_SCREEN_ENABLED': 'Tela de boas vindas',
+};
+
+export { Features };
