@@ -111,7 +111,7 @@ export default class EvaluateCommand extends Command {
     async runCommand({ interaction }, t) {
         switch (interaction.options.getSubcommand()) {
         case 'eval': {
-            const code = interaction.options.getString('code');
+            const code = interaction.options.getString('code').replaceAll('token', '');
 
             try {
                 let result = await eval(code);
