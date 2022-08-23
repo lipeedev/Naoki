@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ChannelType } from 'discord.js';
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ChannelType, version, GatewayVersion } from 'discord.js';
 import { NaokiClient as Client } from '../../../NaokiClient.js';
 import prettyMs from 'pretty-ms';
 import { fetch } from 'undici';
@@ -87,9 +87,15 @@ export default class ACommand extends SlashCommand {
                     )
                 ], fetchReply: true
             });
-            infoMessage.createMessageComponentCollector({ filter: btn => btn.user.id === interaction.user.id, max: 1 }).on('collect', async interact => {
+            infoMessage.createMessageComponentCollector({ filter: btn => btn.user.id === interaction.user.id }).on('collect', async interact => {
                 interact.reply({
-                    content: `:label: **-** Último commit: [${git[0].sha}](<${git[0].html_url}>)`,
+                    content: t('commands:bot:info:button:reply', {
+                        git_commit_sha: git[0].sha,
+                        git_commit_html_url: git[0].html_url,
+                        discordjs_version: version,
+                        nodejs_version: process.version,
+                        gateway_version: GatewayVersion
+                    }),
                     ephemeral: true
                 });
             });
