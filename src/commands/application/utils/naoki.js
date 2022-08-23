@@ -29,9 +29,9 @@ export default class ACommand extends SlashCommand {
                 name_localizations: {
                     'pt-BR': 'info'
                 },
-                description: 'Provides information about me',
+                description: 'Provides information about Naoki',
                 description_localizations: {
-                    'pt-BR': 'Disponibiliza informações sobre mim'
+                    'pt-BR': 'Disponibiliza informações o Naoki'
                 },
                 type: ApplicationCommandOptionType.Subcommand,
             }
@@ -55,16 +55,25 @@ export default class ACommand extends SlashCommand {
                     new Embed(interaction.user)
                         .setAuthor({ name: this.client.user.tag, iconURL: this.client.user.displayAvatarURL(), url: 'https://dsc.gg/naokibot' })
                         .setThumbnail(this.client.user.displayAvatarURL({ extension: 'png', size: 1024 }))
-                        .setDescription('Olá, me chamo **Naoki**, sou um robô do Discord feito para facilitar a moderação de seu servidor, deixar ele mais divertido e ativo.')
+                        .setDescription(t('commands:bot:info:description'))
                         .setFields(
                             {
-                                name: 'Informações básicas',
-                                value: `> **Servidores**: ${this.client.guilds.cache.size.toLocaleString('en-us')}\n> **Usuários**: ${this.client.guilds.cache.map(gld => gld.memberCount).reduce((a, b) => a + b).toLocaleString('en-us')}\n> **Canais**: ${this.client.channels.cache.filter(chn => chn.type !== ChannelType.DM).size.toLocaleString('en-us')}\n> **Comandos**: ${this.client.commands.application.size}`,
+                                name: t('commands:bot:info:fields:first:name'),
+                                value: t('commands:bot:info:fields:first:value', {
+                                    guild_count: Number(this.client.guilds.cache.size).toLocaleString('en-us'),
+                                    user_count: Number(this.client.guilds.cache.map(gld => gld.memberCount).reduce((a, b) => a + b)).toLocaleString('en-us'),
+                                    channel_count: Number(this.client.channels.cache.filter(chn => chn.type !== ChannelType.DM).size).toLocaleString('en-us'),
+                                    command_count: Number(this.client.commands.application.size).toLocaleString('en-us')
+                                }),
                                 inline: true
                             },
                             {
-                                name: 'Informações legais',
-                                value: `> **Ping da API**: ${this.client.ws.ping} ms\n> **Ping do Banco de Dados**: ${Math.round((parada2[0] * 1e9 + parada2[1]) / 1e6)} ms\n> **Tempo acordado**: ${prettyMs(this.client.uptime)}`,
+                                name: t('commands:bot:info:fields:second:name'),
+                                value: t('commands:bot:info:fields:second:value', {
+                                    api_ping: Number(this.client.ws.ping).toLocaleString('en-us'),
+                                    database_ping: Number(~~((parada2[0] * 1e9 + parada2[1]) / 1e6)).toLocaleString('en-us'),
+                                    uptime: prettyMs(this.client.uptime),
+                                }),
                                 inline: true
                             }
                         )
@@ -72,7 +81,7 @@ export default class ACommand extends SlashCommand {
                 components: [
                     new ActionRowBuilder().setComponents(
                         new ButtonBuilder()
-                            .setLabel('Ficha técnica')
+                            .setLabel(t('commands:bot:info:button:label'))
                             .setCustomId('ficha-tecnica')
                             .setStyle(2)
                     )
