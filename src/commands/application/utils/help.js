@@ -9,7 +9,7 @@ export default class HelpCommand extends Command {
     constructor(client) {
         super(client, {
             guildOnly: false,
-            ownerOnly: false
+            ownerOnly: true
         });
         this.client = client;
 
@@ -48,12 +48,11 @@ export default class HelpCommand extends Command {
     }
     async runCommand({ interaction }, t, language) {
         const commandName = interaction.options.getString('command')?.toLowerCase();
-        if (commandName && !this.client.commands.prefix.some(cmd => cmd.name == commandName || commandName.includes(cmd.aliases)) && this.client.commands.slash.get(commandName) && this.client.commands.slash.find(cmd => cmd.name_localizations[language == 'pt-BR' ? 'pt-BR' : 'en-US'] == commandName)) return interaction.reply('nao conheco nenhum comando com esse nome');
+        if (commandName && !this.client.commands.vanilla.some(cmd => cmd.name == commandName || commandName.includes(cmd.aliases)) && this.client.commands.application.get(commandName) && this.client.commands.application.find(cmd => cmd.name_localizations[language == 'pt-BR' ? 'pt-BR' : 'en-US'] == commandName)) return interaction.reply(t('commands:help:nocommand'));
 
-        const comando = this.client.commands.prefix.get(commandName) || this.client.commands.prefix.find(cmd => cmd.aliases?.includes(commandName)) || this.client.commands.slash.get(commandName) || this.client.commands.slash.find(cmd => cmd.name_localizations[language == 'pt-BR' ? 'pt-BR' : 'en-US'] === commandName);
+        const comando = this.client.commands.vanilla.get(commandName) || this.client.commands.vanilla.find(cmd => cmd.aliases?.includes(commandName)) || this.client.commands.application.get(commandName) || this.client.commands.application.find(cmd => cmd.name_localizations[language == 'pt-BR' ? 'pt-BR' : 'en-US'] === commandName);
         if (comando && commandName) {
             const dataComando = await this.client.database.commands.findOne({ cmdName: comando.name });
-            console.log(comando);
 
             const commandEmbed = new Embed(interaction.user)
                 .setTitle(comando.name ?? 'Nome não encontrado')
@@ -68,13 +67,12 @@ export default class HelpCommand extends Command {
                         value: dataComando?.manutencao ? 'Sim' : 'Não'
                     }
                 );
-            console.log(commandName);
           
             interaction.reply({ embeds: [commandEmbed], components: typeof comando.help[language] === 'undefined' ? [] : [new ActionRowBuilder().setComponents(new ButtonBuilder().setCustomId('ver-opcoes').setLabel('Ver opções do comando').setStyle(ButtonStyle.Secondary))] });
 
             return;
         }
 
-        interaction.reply(`eu tenho ${this.client.commands.prefix.size} comandos prefixo e ${this.client.commands.slash.size} comandos em slash`);
+        interaction.reply(';');
     }
 }
