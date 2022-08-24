@@ -26,6 +26,7 @@
             "always"
         ],
         "no-unused-vars": "off",
-        "no-dupe-keys": "off"
+        "no-dupe-keys": "off",
+        "no-const-assign": "error"
     }
 }
