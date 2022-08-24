@@ -114,8 +114,8 @@ export class NaokiClient extends Client {
     async start() {
         await this.loadCommands();
         await this.loadEvents();
-        await connect(process.env.MONGO_URL);
+        connect(process.env.MONGO_URL);
 
-        super.login(process.env.TOKEN);
+        return super.login(process.env.TOKEN);
     }
 }
