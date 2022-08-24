@@ -7,4 +7,4 @@ Naoki é um bot do Discord multiuso com as funções mais necessárias essenciai
 ### [**Clique aqui**](https://dsc.gg/naokibot) para adicionar o Naoki no seu servidor.
 
 # 📚 › Licença
-### Esse repositório usa a licença [GPL 3.0](https://www.gnu.org/licenses/gpl-3.0.pt-br.html).b
+### Esse repositório usa a licença [GPL 3.0](https://www.gnu.org/licenses/gpl-3.0.pt-br.html).
