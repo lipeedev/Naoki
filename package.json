@@ -13,12 +13,13 @@
   "name": "naoki",
   "type": "module",
   "description": "Naoki é um bot do Discord multiuso com as funções mais necessárias essenciais para seu servidor!",
-  "version": "v0.3",
+  "version": "0.0.1",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
+    "start": "cls && node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
