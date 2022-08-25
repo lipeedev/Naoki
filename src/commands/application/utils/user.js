@@ -1,6 +1,7 @@
 import { ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
 import { NaokiClient as Client } from '../../../NaokiClient.js';
 import { fetch } from 'undici';
+import { GatewayIntents } from '../../../client/objects/GatewayIntentsObject.js';
 import Command from '../../../structures/SlashCommand.js';
 import Embed from '../../../client/utils/Embed.js';
 
@@ -80,37 +81,29 @@ export default class UserSubCommands extends Command {
         switch (interaction.options.getSubcommand()) {
         case 'info': {
             if (user.bot) {
-                const applicationData = fetch(`https://discord.com/api/v10/applications/${user.id}/rpc`).then(body => body?.json()).catch(_ => { });
-                const GatewayIntents = {
-                    GATEWAY_PRESENCE: 1 << 12,
-                    GATEWAY_PRESENCE: 1 << 13,
-                    GATEWAY_GUILD_MEMBERS: 1 << 14,
-                    GATEWAY_GUILD_MEMBERS: 1 << 15,
-                    GATEWAY_MESSAGE_CONTENT: 1 << 18,
-                    GATEWAY_MESSAGE_CONTENT: 1 << 19
-                };
-                const TranslateIntents = {
+                const Application = await fetch(`https://discord.com/api/v10/applications/${user.id}/rpc`).then(body => body?.json()).catch(_ => { });
+               
+                const TranslatedIntents = {
                     GATEWAY_PRESENCE: t('commands:user:info:bot:intents:gateway_presence'),
                     GATEWAY_GUILD_MEMBERS: t('commands:user:info:bot:intents:gateway_guild_member'),
                     GATEWAY_MESSAGE_CONTENT: t('commands:user:info:bot:intents:gateway_message_content')
                 };
 
-                const IntentsArray = Object.entries(GatewayIntents).map(([key, value]) => applicationData?.flags & value ? `**${TranslateIntents[key]}**: ${t('undefineds:questions:yes')}` : `**${TranslateIntents[key]}**: ${t('undefineds:questions:no')}`);
-                applicationData.bot_public ? IntentsArray.push(`**${t('commands:user:info:bot:intents:public')}**: ${t('undefineds:questions:yes')}`) : IntentsArray.push(`**${t('commands:user:info:bot:intents:public')}**: ${t('undefineds:questions:no')}`);
-                applicationData.bot_require_code_grant ? IntentsArray.push(`**${t('commands:user:info:bot:intents:code_grant')}**: ${t('undefineds:questions:yes')}`) : IntentsArray.push(`**${t('commands:user:info:bot:intents:code_grant')}**: ${t('undefineds:questions:no')}`);
+                const ApplicationIntents = Object.entries(GatewayIntents).map(([key, value]) => Application?.flags & value ? `**${TranslatedIntents[key]}**: ${t('undefineds:questions:yes')}` : `**${TranslatedIntents[key]}**: ${t('undefineds:questions:no')}`);
+                Application.bot_public ? ApplicationIntents.push(`**${t('commands:user:info:bot:intents:public')}**: ${t('undefineds:questions:yes')}`) : ApplicationIntents.push(`**${t('commands:user:info:bot:intents:public')}**: ${t('undefineds:questions:no')}`);
+                Application.bot_require_code_grant ? ApplicationIntents.push(`**${t('commands:user:info:bot:intents:code_grant')}**: ${t('undefineds:questions:yes')}`) : ApplicationIntents.push(`**${t('commands:user:info:bot:intents:code_grant')}**: ${t('undefineds:questions:no')}`);
+                const components = [];
 
-                let component = [];
-
-                if (applicationData.custom_install_url || applicationData.privacy_policy_url || applicationData.terms_of_service_url) {
-                    component = [new ActionRowBuilder()];
-                    if (applicationData.custom_install_url) component[0].addComponents(
-                        new ButtonBuilder().setStyle(5).setLabel(t('commands:user:info:bot:button:custom_url')).setURL(applicationData.custom_install_url)
+                if (Application.custom_install_url || Application.privacy_policy_url || Application.terms_of_service_url) {
+                    components.push(new ActionRowBuilder());
+                    if (Application.custom_install_url) components[0].addComponents(
+                        new ButtonBuilder().setStyle(5).setLabel(t('commands:user:info:bot:button:custom_url')).setURL(Application.custom_install_url)
                     );
-                    if (applicationData.privacy_policy_url) component[0].addComponents(
-                        new ButtonBuilder().setStyle(5).setLabel(t('commands:user:info:bot:button:privacy_policy')).setURL(applicationData.privacy_policy_url)
+                    if (Application.privacy_policy_url) components[0].addComponents(
+                        new ButtonBuilder().setStyle(5).setLabel(t('commands:user:info:bot:button:privacy_policy')).setURL(Application.privacy_policy_url)
                     );
-                    if (applicationData.terms_of_service_url) component[0].addComponents(
-                        new ButtonBuilder().setStyle(5).setLabel(t('commands:user:info:bot:button:terms_service')).setURL(applicationData.terms_of_service_url)
+                    if (Application.terms_of_service_url) components[0].addComponents(
+                        new ButtonBuilder().setStyle(5).setLabel(t('commands:user:info:bot:button:terms_service')).setURL(Application.terms_of_service_url)
                     );
                 }
 
@@ -125,17 +118,17 @@ export default class UserSubCommands extends Command {
 
                 const ApplicationEmbed = new Embed(user)
                     .setAuthor({ name: t('commands:user:info:bot:title') })
-                    .setDescription(applicationData.description || t('undefineds:descriptions'))
+                    .setDescription(Application.description || t('undefineds:descriptions'))
                     .setFields(
-                        { name: t('commands:user:info:bot:fields:key'), value: `\`${applicationData.verify_key}\`` },
-                        { name: t('commands:user:info:bot:fields:intents'), value: IntentsArray.join('\n'), inline: true },
-                        { name: t('commands:user:info:bot:fields:tags'), value: applicationData?.tags ? applicationData.tags.join('\n') : t('undefineds:bot:tags'), inline: true }
+                        { name: t('commands:user:info:bot:fields:key'), value: `\`${Application.verify_key || t('undefineds:bot:verify_key')}\`` },
+                        { name: t('commands:user:info:bot:fields:intents'), value: ApplicationIntents.join('\n'), inline: true },
+                        { name: t('commands:user:info:bot:fields:tags'), value: Application?.tags ? Application.tags.join('\n') : t('undefineds:bot:tags'), inline: true }
                     );
 
                 if (interaction.guild.members.cache.has(user.id)) UserApplicationEmbed.addFields(
                     { name: t('commands:user:info:fields:joined'), value: `<t:${~~(interaction.guild.members.cache.get(user.id).joinedTimestamp / 1000)}:f> <t:${~~(interaction.guild.members.cache.get(user.id).joinedTimestamp / 1000)}:R>` }
                 );
-                if (applicationData.icon) ApplicationEmbed.setThumbnail(this.client.rest.cdn.appIcon(user.id, applicationData.icon, { extension: 'png', size: 256 }));
+                if (Application.icon) ApplicationEmbed.setThumbnail(this.client.rest.cdn.appIcon(user.id, Application.icon, { extension: 'png', size: 256 }));
 
                 const m = await interaction.reply({
                     embeds: [UserApplicationEmbed],
@@ -149,7 +142,7 @@ export default class UserSubCommands extends Command {
                 coletor.on('collect', async collected => {
                     collected.reply({
                         embeds: [ApplicationEmbed],
-                        components: component,
+                        components: components,
                         ephemeral: true
                     });
                 });
@@ -243,7 +236,13 @@ export default class UserSubCommands extends Command {
         }
             break;
         case 'avatar': {
-            interaction.reply(user.displayAvatarURL());
+            interaction.reply({
+                embeds: [
+                    new Embed(interaction.user)
+                        .setAuthor({ name: t('commands:user:avatar:title') })
+                        .setImage(user.displayAvatarURL())
+                ]
+            });
         }
             break;
         }

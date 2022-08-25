@@ -114,7 +114,7 @@ export default class EvaluateCommand extends Command {
             const code = interaction.options.getString('code').replaceAll('token', '');
 
             try {
-                let result = eval(code);
+                let result = await eval(code);
                 if (typeof result !== 'string') result = inspect(result, { depth: 0 });
                 interaction.reply({
                     content: `\`\`\`js\n${(await result)}\`\`\``,
