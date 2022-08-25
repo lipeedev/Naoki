@@ -51,12 +51,12 @@ export default class ConfigSubCommands extends Command {
     async runCommand({ interaction }, t) {
         switch (interaction.options.getSubcommand()) {
         case 'language': {
+            if (!interaction.member.permissions.has('ManageGuild')) return interaction.reply({ content: t('permissions:manageguild'), ephemeral: true });
             const idioma = interaction.options.getString('language');
             const guild = await this.client.database.guilds.findOne({ guildId: interaction.guild.id });
 
             guild.lang = idioma;
             await guild.save();
-
             interaction.reply(idioma == 'pt-BR' ? '🌎 **-** Meu idioma nesse servidor foi alterado para **Português do Brasil**.' : '🌎 **-** My language on this guild has been changed to **US English**');
         }
             break;
