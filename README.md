@@ -7,10 +7,10 @@
         </p>
 </div>
 
-## 🤔 › Quem eu sou?
+## 🤔 › Sobre o Naoki
 
-Sou um bot do Discord chamado **Naoki**, sou multiuso com as funções mais necessárias essenciais para seu servidor!<br>
-O código do Naoki é escrito em JavaScript com [**Node.js**](https://nodejs.org/), utilizando a biblioteca [**Discord.js**](https://discord.js.org/).
+Naoki é um robô do Discord multiuso com as funções mais necessárias e essenciais para seu servidor!<br>
+O código do Naoki foi escrito em JavaScript com [**Node.js**](https://nodejs.org/), utilizando a biblioteca [**Discord.js**](https://discord.js.org/).
 
 ## 🔗 › Adicionar o Naoki
 
