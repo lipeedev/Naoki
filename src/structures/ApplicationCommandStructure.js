@@ -7,7 +7,6 @@ const ApplicatonCommandData = {
     description_localizations: {},
     type: 1,
     options: [],
-    category: '',
     displayInHelp: true,
     guildOnly: true,
     devOnly: false

@@ -8,7 +8,7 @@ export default class ReadyEvent extends Event {
         });
     }
     async runEvent() {
-        await this.client.application.commands.set(this.client.commands.vanilla.filter(cmd => cmd.options.cmdType == 'application').map(cmd => cmd.options)).then(cmd => this.client.logger('Discord, Application', `Posted ${cmd.size} commands to Discord.`)).catch(e => console.log(e));
+        await this.client.application.commands.set(this.client.commands.vanilla.filter(cmd => cmd.type == 'application').map(cmd => cmd.options)).then(cmd => this.client.logger('Discord, Application', `Posted ${cmd.size} commands to Discord.`)).catch(e => console.log(e));
         this.client.logger('Discord, Client', 'Connected successfully in ' + this.client.user.tag);
     }
 }
