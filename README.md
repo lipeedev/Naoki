@@ -32,7 +32,6 @@ Instale as dependencias:
 
 Gerenciador |   Comando
 :-------    |  :-------:
-------------|-------------
 Yarn        | `yarn install`
 Npm         | `npm install`
 Pnpm        | `pnpm install`
