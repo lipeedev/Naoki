@@ -22,8 +22,8 @@ O código do Naoki é escrito em JavaScript com [**Node.js**](https://nodejs.org
 
 ## ⚠️ › Avisos
 
-Este repositório está em constante desenvolvimento, a versão oficial do **Naoki** ainda não  foi concluida, mas estará disponível em breve<br>
-Devido a isso, alguns comandos podem apresentar mal funcionamento, tradução errada ou falhas, conforme o tempo os erros irão ser corrigidos.
+Este repositório está em constante desenvolvimento, a versão oficial do **Naoki** ainda não está disponível.<br>
+Devido a isso, alguns comandos podem apresentar mal funcionamento, tradução incorreta e falhas, conforme o tempo os erros irão ser corrigidos.
 
 ## 📚 › Licença
 
