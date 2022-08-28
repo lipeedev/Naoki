@@ -12,7 +12,7 @@
 Sou um bot do Discord chamado **Naoki**, sou multiuso com as funções mais necessárias essenciais para seu servidor!<br>
 O código do Naoki é escrito em JavaScript com [**Node.js**](https://nodejs.org/), utilizando a biblioteca [**Discord.js**](https://discord.js.org/).
 
-## 🔗 › Como me adicionar?
+## 🔗 › Adicionar o Naoki
 
 > Adicionar com permissões de administrador: [**clique aqui**](https://discord.com/oauth2/authorize?client_id=992678181507174441&permissions=8&scope=bot%20applications.commands)
 
