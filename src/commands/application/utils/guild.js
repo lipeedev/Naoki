@@ -1,51 +1,45 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import { NaokiClient as Client } from '../../../NaokiClient.js';
 import { Features } from '../../../client/objects/GuildFeaturesObject.js';
-import Command from '../../../structures/SlashCommand.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 import Embed from '../../../client/utils/Embed.js';
 
-export default class GuildSubCommands extends Command {
-    /** @param {Client} client */
+export default class GuildSubCommands extends ApplicationCommand {
     constructor(client) {
         super(client, {
-            guildOnly: false,
-            ownerOnly: false
+            name: 'guild',
+            name_localizations: {
+                'pt-BR': 'servidor'
+            },
+            description: 'Guild commands',
+            category: 'util',
+            options: [
+                {
+                    name: 'info',
+                    name_localizations: {
+                        'pt-BR': 'informacao'
+                    },
+                    description: 'See information about the guild',
+                    description_localizations: {
+                        'pt-BR': 'Veja informações sobre o servidor'
+                    },
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'guild',
+                            name_localizations: {
+                                'pt-BR': 'servidor'
+                            },
+                            description: 'The ID of the Guild',
+                            description_localizations: {
+                                'pt-BR': 'O ID do Servidor'
+                            },
+                            type: ApplicationCommandOptionType.String,
+                            required: false
+                        }
+                    ]
+                }
+            ]
         });
-        this.client = client;
-
-        this.name = 'guild';
-        this.name_localizations = {
-            'pt-BR': 'servidor'
-        };
-        this.category = 'utils';
-        this.description = 'Guild commands';
-        this.options = [
-            {
-                name: 'info',
-                name_localizations: {
-                    'pt-BR': 'informacao'
-                },
-                description: 'See information about the guild',
-                description_localizations: {
-                    'pt-BR': 'Veja informações sobre o servidor'
-                },
-                type: ApplicationCommandOptionType.Subcommand,
-                options: [
-                    {
-                        name: 'guild',
-                        name_localizations: {
-                            'pt-BR': 'servidor'
-                        },
-                        description: 'The ID of the Guild',
-                        description_localizations: {
-                            'pt-BR': 'O ID do Servidor'
-                        },
-                        type: ApplicationCommandOptionType.String,
-                        required: false
-                    }
-                ]
-            }
-        ];
     }
     async runCommand({ interaction }, t) {
         const guildId = interaction.options.getString('guild') || interaction.guildId;

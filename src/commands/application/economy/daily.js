@@ -1,24 +1,21 @@
-import { NaokiClient as Client } from '../../../NaokiClient.js';
-import Command from '../../../structures/SlashCommand.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 
-export default class DailyCommand extends Command {
-    /** @param {Client} client */
+export default class DailyCommand extends ApplicationCommand {
     constructor(client) {
         super(client, {
+            name: 'daily',
+            name_localizations: {
+                'pt-BR': 'diário'
+            },
+            description: 'Collect your daily coin prize.',
+            description_localizations: {
+                'pt-BR': 'Colete seu prêmio diário de moedas'
+            },
+            category: 'eco',
+            displayInHelp: true,
             guildOnly: false,
-            ownerOnly: false
+            devOnly: false
         });
-        this.client = client;
-
-        this.name = 'daily';
-        this.name_localizations = {
-            'pt-BR': 'diário'
-        };
-        this.category = 'economy';
-        this.description = 'Collect your daily coin prize.';
-        this.description_localizations = {
-            'pt-BR': 'Colete seu prêmio diário de moedas'
-        };
     }
     async runCommand({ interaction }, t) {
         let userSchema = await this.client.database.users.findOne({ userId: interaction.user.id });

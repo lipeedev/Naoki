@@ -1,61 +1,52 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ChannelType, version as DjsVersion, GatewayVersion } from 'discord.js';
-import { NaokiClient as Client } from '../../../NaokiClient.js';
 import pkg from '../../../../package.json' assert { type: 'json' };
-import { fetch } from 'undici';
+import { fetch } from 'undici'; 
 import { formatBytes } from '../../../functions/formatBytes.js';
 import { formatArray } from '../../../functions/formatArray.js';
 import os from 'node:os';
 import prettyMs from 'pretty-ms';
-import SlashCommand from '../../../structures/SlashCommand.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 import Embed from '../../../client/utils/Embed.js';
 
-export default class NaokiSubCommands extends SlashCommand {
-    /** @param {Client} client */
+export default class NaokiSubCommands extends ApplicationCommand {
     constructor(client) {
         super(client, {
-            guildOnly: false,
-            ownerOnly: false
-        });
-        this.client = client;
-
-        this.name = 'naoki';
-        this.name_localizations = {
-            'pt-BR': 'naoki'
-        };
-        this.description = 'A list of naoki-related commands';
-        this.description_localizations = {
-            'pt-BR': 'Uma lista de comandos relacionados ao naoki'
-        };
-        this.category = 'utils';
-        this.options = [
-            {
-                name: 'info',
-                name_localizations: {
-                    'pt-BR': 'info'
-                },
-                description: 'Provides information about Naoki',
-                description_localizations: {
-                    'pt-BR': 'Disponibiliza informações o Naoki'
-                },
-                type: ApplicationCommandOptionType.Subcommand,
+            name: 'naoki',
+            name_localizations: {
+                'pt-BR': 'naoki'
             },
-            {
-                name: 'ping',
-                name_localizations: {
-                    'pt-BR': 'ping'
+            description: 'A list of naoki-related commands',
+            description_localizations: {
+                'pt-BR': 'Uma lista de comandos relacionados ao naoki'
+            },
+            category: 'util',
+            options: [
+                {
+                    name: 'info',
+                    name_localizations: {
+                        'pt-BR': 'info'
+                    },
+                    description: 'Provides information about Naoki',
+                    description_localizations: {
+                        'pt-BR': 'Disponibiliza informações o Naoki'
+                    },
+                    type: ApplicationCommandOptionType.Subcommand,
                 },
-                description: 'Command to see Naoki\'s latency.',
-                description_localizations: {
-                    'pt-BR': 'Comando para ver a latência do Naoki.'
-                },
-                type: ApplicationCommandOptionType.Subcommand,
-            }
-        ];
-        this.help = {
-            'pt-BR': [],
-            'en-US': []
-        };
+                {
+                    name: 'ping',
+                    name_localizations: {
+                        'pt-BR': 'ping'
+                    },
+                    description: 'Command to see Naoki\'s latency.',
+                    description_localizations: {
+                        'pt-BR': 'Comando para ver a latência do Naoki.'
+                    },
+                    type: ApplicationCommandOptionType.Subcommand,
+                }
+            ],
+        });
     }
+
     async runCommand({ interaction }, t, language) {
         const parada1 = process.hrtime();
         await this.client.database.guilds.findOne({ guildId: interaction.guild.id });
@@ -78,7 +69,7 @@ export default class NaokiSubCommands extends SlashCommand {
                                     guild_count: Number(this.client.guilds.cache.size).toLocaleString('en-us'),
                                     user_count: Number(this.client.guilds.cache.map(gld => gld.memberCount).reduce((a, b) => a + b)).toLocaleString('en-us'),
                                     channel_count: Number(this.client.channels.cache.filter(chn => chn.type !== ChannelType.DM).size).toLocaleString('en-us'),
-                                    command_count: Number(this.client.commands.application.size).toLocaleString('en-us')
+                                    command_count: Number(this.client.commands.vanilla.filter(cmd => cmd.options.cmdType === 'application').size).toLocaleString('en-us')
                                 }),
                                 inline: true
                             },
@@ -93,10 +84,11 @@ export default class NaokiSubCommands extends SlashCommand {
                                 inline: true
                             }
                         )
-                        .setFooter({ text: t('commands:bot:info:footer', {
-                            creators_tag: formatArray(language, this.client.owners.map(id => this.client.users.cache.get(id).tag))
+                        .setFooter({
+                            text: t('commands:bot:info:footer', {
+                                creators_tag: formatArray(language, this.client.owners.map(id => this.client.users.cache.get(id).tag))
+                            })
                         })
-                    })
                 ],
                 components: [
                     new ActionRowBuilder().setComponents(
@@ -116,8 +108,8 @@ export default class NaokiSubCommands extends SlashCommand {
                         nodejs_version: process.version,
                         gateway_version: GatewayVersion,
                         client_version: pkg.version,
+                        used_ram: formatBytes(Number(os.totalmem() - os.freemem())),
                         total_ram: formatBytes(os.totalmem()),
-                        available_ram: formatBytes(os.freemem()),
                         cpu_model: os.cpus()[0].model
                     }),
                     ephemeral: true

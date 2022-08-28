@@ -1,80 +1,77 @@
 import { ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
-import { NaokiClient as Client } from '../../../NaokiClient.js';
 import { fetch } from 'undici';
 import { GatewayIntents } from '../../../client/objects/GatewayIntentsObject.js';
-import Command from '../../../structures/SlashCommand.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 import Embed from '../../../client/utils/Embed.js';
 
-export default class UserSubCommands extends Command {
-    /** @param {Client} client */
+export default class UserSubCommands extends ApplicationCommand {
     constructor(client) {
         super(client, {
-            guildOnly: false,
-            ownerOnly: false
-        });
-        this.client = client;
-
-        this.name = 'user';
-        this.name_localizations = {
-            'pt-BR': 'usuario'
-        };
-        this.description = 'User commands';
-        this.description_localizations = {
-            'pt-BR': 'Veja informações sobre um usuário do Discord'
-        };
-        this.category = 'utils';
-        this.options = [
-            {
-                name: 'info',
-                name_localizations: {
-                    'pt-BR': 'info'
-                },
-                description: 'See information about a user',
-                description_localizations: {
-                    'pt-BR': 'Veja informações sobre um usuário do Discord'
-                },
-                type: ApplicationCommandOptionType.Subcommand,
-                options: [
-                    {
-                        name: 'user',
-                        name_localizations: {
-                            'pt-BR': 'pessoa'
-                        },
-                        description: 'Select a user to see informations',
-                        description_localizations: {
-                            'pt-BR': 'Selecione uma pessoa para ver as informações'
-                        },
-                        type: ApplicationCommandOptionType.User,
-                        required: false
-                    }
-                ]
+            name: 'user',
+            name_localizations: {
+                'pt-BR': 'usuario'
             },
-            {
-                name: 'avatar',
-                name_localizations: {
-                    'pt-BR': 'foto'
+            description: 'User commands',
+            description_localizations: {
+                'pt-BR': 'Veja informações sobre um usuário do Discord'
+            },
+            options: [
+                {
+                    name: 'info',
+                    name_localizations: {
+                        'pt-BR': 'info'
+                    },
+                    description: 'See information about a user',
+                    description_localizations: {
+                        'pt-BR': 'Veja informações sobre um usuário do Discord'
+                    },
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'user',
+                            name_localizations: {
+                                'pt-BR': 'pessoa'
+                            },
+                            description: 'Select a user to see informations',
+                            description_localizations: {
+                                'pt-BR': 'Selecione uma pessoa para ver as informações'
+                            },
+                            type: ApplicationCommandOptionType.User,
+                            required: false
+                        }
+                    ]
                 },
-                description: 'See the avatar of someone',
-                description_localizations: {
-                    'pt-BR': 'Veja a foto de perfil de alguém'
-                },
-                type: ApplicationCommandOptionType.Subcommand,
-                options: [
-                    {
-                        name: 'user',
-                        name_localizations: {
-                            'pt-BR': 'pessoa'
-                        },
-                        description: 'Select a user to see avatar',
-                        description_localizations: {
-                            'pt-BR': 'Selecione uma pessoa para ver a foto de perfil'
-                        },
-                        type: ApplicationCommandOptionType.User,
-                        required: false
-                    }
-                ]
-            }
-        ];
+                {
+                    name: 'avatar',
+                    name_localizations: {
+                        'pt-BR': 'foto'
+                    },
+                    description: 'See the avatar of someone',
+                    description_localizations: {
+                        'pt-BR': 'Veja a foto de perfil de alguém'
+                    },
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'user',
+                            name_localizations: {
+                                'pt-BR': 'pessoa'
+                            },
+                            description: 'Select a user to see avatar',
+                            description_localizations: {
+                                'pt-BR': 'Selecione uma pessoa para ver a foto de perfil'
+                            },
+                            type: ApplicationCommandOptionType.User,
+                            required: false
+                        }
+                    ]
+                }
+            ],
+            category: 'util',
+            displayInHelp: true,
+            guildOnly: true,
+            devOnly: false,
+        });
     }
     async runCommand({ interaction }, t) {
         const user = interaction.options.getUser('user') || interaction.user;
@@ -82,7 +79,7 @@ export default class UserSubCommands extends Command {
         case 'info': {
             if (user.bot) {
                 const Application = await fetch(`https://discord.com/api/v10/applications/${user.id}/rpc`).then(body => body?.json()).catch(_ => { });
-               
+
                 const TranslatedIntents = {
                     GATEWAY_PRESENCE: t('commands:user:info:bot:intents:gateway_presence'),
                     GATEWAY_GUILD_MEMBERS: t('commands:user:info:bot:intents:gateway_guild_member'),
@@ -239,7 +236,7 @@ export default class UserSubCommands extends Command {
             interaction.reply({
                 embeds: [
                     new Embed(interaction.user)
-                        .setAuthor({ name: t('commands:user:avatar:title') })
+                        .setAuthor({ name: t('commands:user:avatar:title', { user: user.username }) })
                         .setImage(user.displayAvatarURL())
                 ]
             });

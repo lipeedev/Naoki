@@ -12,7 +12,7 @@ const { connect } = pkg;
 dotenv.config();
 
 export class NaokiClient extends Client {
-    commands = { vanilla: new Collection(), application: new Collection() };
+    commands = { vanilla: new Collection() };
     database = { users: UserSchema, guilds: GuildSchema, commands: CommandSchema };
     owners = ['930672718876147763', '343778106340802580'];
     emotes = Emotes;
@@ -45,8 +45,9 @@ export class NaokiClient extends Client {
             const files = await readdir(`./src/commands/vanilla/${folder}`);
             for await (const command of files) {
                 if (!command.endsWith('.js')) continue;
-                const { default: VCommand } = await import(`./commands/vanilla/${folder}/${command}`);
-                const cmd = new VCommand(this);
+                const { default: VanillaCommandClass } = await import(`./commands/vanilla/${folder}/${command}`);
+                const cmd = new VanillaCommandClass(this);
+                cmd.options.cmdType = 'vanilla';
                 await this.commands.vanilla.set(cmd.name, cmd);
                 this.logger('Commands, Vanilla', `${cmd.name[0].toUpperCase()}${cmd.name.slice(1)} command loaded successfully`);
             }
@@ -57,10 +58,11 @@ export class NaokiClient extends Client {
             const files = await readdir(`./src/commands/application/${folder}`);
             for await (const command of files) {
                 if (!command.endsWith('.js')) continue;
-                const { default: ACommand } = await import(`./commands/application/${folder}/${command}`);
-                const cmd = new ACommand(this);
-                await this.commands.application.set(cmd.name, cmd);
-                this.logger('Commands, Application', `${cmd.name[0].toUpperCase()}${cmd.name.slice(1)} command loaded successfully`);
+                const { default: ApplicationCommandClass } = await import(`./commands/application/${folder}/${command}`);
+                const cmd = new ApplicationCommandClass(this);
+                cmd.options.cmdType = 'application';
+                await this.commands.vanilla.set(cmd.options.name, cmd);
+                this.logger('Commands, Application', `${cmd.options.name[0].toUpperCase()}${cmd.options.name.slice(1)} command loaded successfully`);
             }
         }
     }
@@ -73,15 +75,14 @@ export class NaokiClient extends Client {
                 if (!event.endsWith('.js')) continue;
                 const { default: ClientEvent } = await import(`./client/events/${folder}/${event}`);
                 const evnt = new ClientEvent(this);
-                this.on(evnt.name, (...args) => evnt.execute(...args));
-                this.logger('Client, Events', `${evnt.name[0].toUpperCase()}${evnt.name.slice(1)} event loaded successfully`);
+                this[evnt.options.once ? 'once' : 'on'](evnt.options.name, (...args) => evnt.runEvent(...args));
+                this.logger('Client, Events', `${evnt.options.name[0].toUpperCase()}${evnt.options.name.slice(1)} event loaded successfully`);
             }
         }
     }
 
     async getLang(parameter) {
         if (isNaN(parameter)) return parameter;
-
         const guild = await this.database.guilds.findOne({ guildId: parameter, });
 
         if (guild) {
@@ -109,6 +110,29 @@ export class NaokiClient extends Client {
         translate.setLang(language);
 
         return this.t;
+    }
+
+    async getData(id, type) {
+        if (type === 'user') {
+            let data = await this.database.users.findOne({ userId: id });
+            if (!data) {
+                await this.database.users.create({ userId: id });
+                data = this.database.users.findOne({ userId: id });
+                return data;
+            }
+
+            return data;
+        }
+        if (type === 'guild') {
+            let data = await this.database.guilds.findOne({ guildId: id });
+            if (!data) {
+                await this.database.guilds.create({ guildId: id });
+                data = this.database.guilds.findOne({ guildId: id });
+                return data;
+            }
+
+            return data;
+        }
     }
 
     async start() {
