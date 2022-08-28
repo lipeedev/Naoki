@@ -16,6 +16,30 @@ O código do Naoki é escrito em JavaScript com [**Node.js**](https://nodejs.org
 
 Fazer parte do seu servidor seria uma honra, para me adicionar clique [**aqui**](https://dsc.gg/naokibot).
 
+## ⚙️ › Configurações
+
+Clone este repositório e entre na pasta:
+```
+git clone https://github.com/NaokiBot/Naoki.git
+cd Naoki/
+```
+
+Instale as dependencias:
+
+Gerenciador |   Comando
+:-------    |  :-------:
+------------|-------------
+Yarn        | `yarn install`
+Npm         | `npm install`
+Pnpm        | `pnpm install
+
+Renomeie o arquivo `.env.example` para `.env` e substiua com suas informações
+```
+TOKEN=BOT_TOKEN_AQUI
+STATE=development
+MONGO_URL=MONGO_DB_URL_AQUI
+```
+
 ## ⚠️ › Avisos
 
 Este repositório está em constante desenvolvimento, a versão oficial do **Naoki** ainda não  foi concluida, mas estará disponível em breve<br>
