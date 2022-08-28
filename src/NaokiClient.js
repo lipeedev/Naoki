@@ -20,7 +20,7 @@ export class NaokiClient extends Client {
 
     constructor() {
         super({
-            intents: 112639,
+            intents: 100239,
             failIfNotExists: false,
             partials: [0, 1, 2, 3, 4],
             allowedMentions: {
@@ -47,7 +47,7 @@ export class NaokiClient extends Client {
                 if (!command.endsWith('.js')) continue;
                 const { default: VanillaCommandClass } = await import(`./commands/vanilla/${folder}/${command}`);
                 const cmd = new VanillaCommandClass(this);
-                cmd.options.cmdType = 'vanilla';
+                cmd.type = 'vanilla'; cmd.options.category = folder;
                 await this.commands.vanilla.set(cmd.name, cmd);
                 this.logger('Commands, Vanilla', `${cmd.name[0].toUpperCase()}${cmd.name.slice(1)} command loaded successfully`);
             }
@@ -60,7 +60,7 @@ export class NaokiClient extends Client {
                 if (!command.endsWith('.js')) continue;
                 const { default: ApplicationCommandClass } = await import(`./commands/application/${folder}/${command}`);
                 const cmd = new ApplicationCommandClass(this);
-                cmd.options.cmdType = 'application';
+                cmd.type = 'application'; cmd.options.category = folder;
                 await this.commands.vanilla.set(cmd.options.name, cmd);
                 this.logger('Commands, Application', `${cmd.options.name[0].toUpperCase()}${cmd.options.name.slice(1)} command loaded successfully`);
             }

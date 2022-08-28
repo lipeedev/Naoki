@@ -5,7 +5,6 @@ const VanillaCommandData = {
     name_localizations: {},
     description: '',
     description_localizations: {},
-    category: '',
     displayInHelp: true,
     guildOnly: true,
     devOnly: false
