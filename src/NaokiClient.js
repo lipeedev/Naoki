@@ -6,23 +6,47 @@ import { Locale } from '../lib/Locale.js';
 import UserSchema from './database/UserSchema.js';
 import GuildSchema from './database/GuildSchema.js';
 import CommandSchema from './database/CommandSchema.js';
+import { GatewayIntentBits, Partials } from 'discord.js';
 import dotenv from 'dotenv';
 import pkg from 'mongoose';
 const { connect } = pkg;
 dotenv.config();
 
 export class NaokiClient extends Client {
-    commands = { vanilla: new Collection() };
-    database = { users: UserSchema, guilds: GuildSchema, commands: CommandSchema };
+    commands = {
+        vanilla: new Collection()
+    };
+    database = {
+        users: UserSchema,
+        guilds: GuildSchema,
+        commands: CommandSchema
+    };
     owners = ['930672718876147763', '343778106340802580'];
     emotes = Emotes;
     t = null;
 
     constructor() {
         super({
-            intents: 112639,
+            intents: [
+                GatewayIntentBits.Guilds,
+                GatewayIntentBits.GuildMembers,
+                GatewayIntentBits.GuildBans,
+                GatewayIntentBits.GuildEmojisAndStickers,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildPresences,
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.GuildMessageReactions,
+                GatewayIntentBits.MessageContent,
+                GatewayIntentBits.GuildScheduledEvents
+            ],
             failIfNotExists: false,
-            partials: [0, 1, 2, 3, 4],
+            partials: [
+                Partials.User,
+                Partials.Channel,
+                Partials.GuildMember,
+                Partials.Message,
+                Partials.Reaction
+            ],
             allowedMentions: {
                 parse: ['users'],
                 repliedUser: true
@@ -47,9 +71,8 @@ export class NaokiClient extends Client {
                 if (!command.endsWith('.js')) continue;
                 const { default: VanillaCommandClass } = await import(`./commands/vanilla/${folder}/${command}`);
                 const cmd = new VanillaCommandClass(this);
-                cmd.options.cmdType = 'vanilla';
-                await this.commands.vanilla.set(cmd.name, cmd);
-                this.logger('Commands, Vanilla', `${cmd.name[0].toUpperCase()}${cmd.name.slice(1)} command loaded successfully`);
+                await this.commands.vanilla.set(`${cmd.options.name}-prefix`, cmd);
+                this.logger('Commands, Vanilla', `${cmd.options.name[0].toUpperCase()}${cmd.options.name.slice(1)} command loaded successfully`);
             }
         }
 
