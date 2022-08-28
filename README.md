@@ -1,6 +1,11 @@
-![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)
-![HitCount](https://hits.dwyl.com/NaokiBot/Naoki.svg?style=flat-square)
-![GitHub stars](https://badgen.net/github/stars/NaokiBot/Naoki)
+<div align="center">
+    <br />
+        <p>
+        <img src="https://hits.dwyl.com/NaokiBot/Naoki.svg?style=flat-square" alt="Hits" />
+        <img src="https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg" alt="Javascript badge" />
+        <img src="https://badgen.net/github/stars/NaokiBot/Naoki" alt="Repository Stars" />
+        </p>
+</div>
 
 ## 🤔 › Quem eu sou?
 
