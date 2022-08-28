@@ -15,7 +15,9 @@ O código do Naoki é escrito em JavaScript com [**Node.js**](https://nodejs.org
 ## 🔗 › Como me adicionar?
 
 > Adicionar com permissões de administrador: [**clique aqui**](https://discord.com/oauth2/authorize?client_id=992678181507174441&permissions=8&scope=bot%20applications.commands)
+
 > Adicionar com permissões necessárias: [**clique aqui**](https://discord.com/api/oauth2/authorize?client_id=992678181507174441&permissions=1100854193398&scope=bot%20applications.commands)
+
 > Adicionar sem nenhuma permissão: [**clique aqui**](https://discord.com/oauth2/authorize?client_id=992678181507174441&permissions=0&scope=bot%20applications.commands)
 
 ## ⚠️ › Avisos
