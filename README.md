@@ -35,7 +35,7 @@ Gerenciador |   Comando
 ------------|-------------
 Yarn        | `yarn install`
 Npm         | `npm install`
-Pnpm        | `pnpm install
+Pnpm        | `pnpm install`
 
 Renomeie o arquivo `.env.example` para `.env` e substiua com suas informações
 ```
