@@ -1,4 +1,5 @@
-node_modules/
-*-lock
-*.lock
+node_modules
+saves
 .env
+src/languages
+src/commands/application/utils/help.js

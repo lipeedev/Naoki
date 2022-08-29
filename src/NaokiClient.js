@@ -7,10 +7,10 @@ import UserSchema from './database/UserSchema.js';
 import GuildSchema from './database/GuildSchema.js';
 import CommandSchema from './database/CommandSchema.js';
 import { GatewayIntentBits, Partials } from 'discord.js';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
 import pkg from 'mongoose';
 const { connect } = pkg;
-dotenv.config();
+config();
 
 export class NaokiClient extends Client {
     commands = {

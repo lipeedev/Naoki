@@ -1,10 +1,6 @@
 import VanillaCommand from '../../../structures/VanillaCommandStructure.js';
-import { NaokiClient as Client } from '../../../NaokiClient.js';
 
 export default class HelpCommand extends VanillaCommand {
-    /**
-     * @param {Client} client
-     */
     constructor(client) {
         super(client, {
             name: 'help',
@@ -15,7 +11,8 @@ export default class HelpCommand extends VanillaCommand {
             description_localizations: {
                 'pt-BR': 'Um comando para ver todos os meus comandos e como funciona.'
             },
-            category: 'util',
+            aliases: ['ajuda'],
+            
             devOnly: true,
             guildOnly: false,
             displayInHelp: false

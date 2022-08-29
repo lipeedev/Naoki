@@ -11,7 +11,7 @@ export default class DailyCommand extends ApplicationCommand {
             description_localizations: {
                 'pt-BR': 'Colete seu prêmio diário de moedas'
             },
-            category: 'eco',
+            
             displayInHelp: true,
             guildOnly: false,
             devOnly: false

@@ -40,7 +40,7 @@ export default class ConfigSubCommands extends ApplicationCommand {
                     ]
                 }
             ],
-            category: 'adm',
+            
             guildOnly: true,
             devOnly: false,
             displayInHelp: true

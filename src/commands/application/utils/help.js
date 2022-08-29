@@ -1,4 +1,4 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, EmbedBuilder } from 'discord.js';
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
 import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 import Embed from '../../../client/utils/Embed.js';
 
@@ -27,7 +27,7 @@ export default class HelpCommand extends ApplicationCommand {
                     required: false
                 }
             ],
-            category: 'util',
+            
             devOnly: true,
             guildOnly: false,
             displayInHelp: false

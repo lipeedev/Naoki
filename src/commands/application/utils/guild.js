@@ -11,6 +11,9 @@ export default class GuildSubCommands extends ApplicationCommand {
                 'pt-BR': 'servidor'
             },
             description: 'Guild commands',
+            description_localizations: {
+                'pt-BR': 'Comandos relacionados ao servidor'
+            },
             category: 'util',
             options: [
                 {
@@ -38,7 +41,9 @@ export default class GuildSubCommands extends ApplicationCommand {
                         }
                     ]
                 }
-            ]
+            ],
+
+            displayInHelp: true
         });
     }
     async runCommand({ interaction }, t) {

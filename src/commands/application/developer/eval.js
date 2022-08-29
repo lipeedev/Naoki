@@ -101,7 +101,7 @@ export default class EvaluateCommand extends ApplicationCommand {
                     ]
                 }
             ],
-            category: 'dev',
+            
             displayInHelp: false,
             guildOnly: true,
             devOnly: true

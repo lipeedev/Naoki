@@ -13,13 +13,14 @@ export default class NaokiSubCommands extends ApplicationCommand {
         super(client, {
             name: 'naoki',
             name_localizations: {
-                'pt-BR': 'naoki'
+                'pt-BR': 'naoki',
+                'en-US': 'naoki'
             },
             description: 'A list of naoki-related commands',
             description_localizations: {
-                'pt-BR': 'Uma lista de comandos relacionados ao naoki'
+                'pt-BR': 'Uma lista de comandos relacionados ao naoki',
+                'en-US': 'A list of naoki-related commands'
             },
-            category: 'util',
             options: [
                 {
                     name: 'info',
@@ -44,6 +45,8 @@ export default class NaokiSubCommands extends ApplicationCommand {
                     type: ApplicationCommandOptionType.Subcommand,
                 }
             ],
+
+            displayInHelp: true
         });
     }
 

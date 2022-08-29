@@ -24,8 +24,7 @@ export default class MessageCreateEvent extends Event {
         const args = message.content.slice(prefix?.length).trim().split(/ +/g);
         const cmd = args.shift().toLowerCase();
 
-        const command = this.client.commands.vanilla.filter(cmd => cmd.type === 'vanilla').get(cmd) || this.client.commands.vanilla.find(cmd => cmd.options.aliases?.includes(cmd));
-
+        const command = this.client.commands.vanilla.get(`${cmd}-prefix`) || this.client.commands.vanilla.find(c => c.options.aliases?.includes(cmd));
         if (!command) return;
 
         try {
