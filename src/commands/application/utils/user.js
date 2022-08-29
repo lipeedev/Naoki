@@ -1,8 +1,13 @@
-import { ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from 'discord.js';
+import {
+    ApplicationCommandOptionType,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
+    ComponentType
+} from 'discord.js';
+  
 import { fetch } from 'undici';
-import { GatewayIntents } from '../../../client/objects/GatewayIntentsObject.js';
-import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
-import Embed from '../../../client/utils/Embed.js';
+import {ApplicationCommand, Embed, GatewayIntents} from '../../../imports.js';
 
 export default class UserSubCommands extends ApplicationCommand {
     constructor(client) {

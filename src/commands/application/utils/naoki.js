@@ -1,10 +1,24 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ChannelType, version as DjsVersion, GatewayVersion } from 'discord.js';
-import pkg from '../../../../package.json' assert { type: 'json' };
-import { fetch } from 'undici'; 
+import {
+    ActionRowBuilder,
+    ApplicationCommandOptionType,
+    ButtonBuilder,
+    ChannelType,
+    version as DjsVersion,
+    GatewayVersion
+} from 'discord.js';
+  
+import {
+    formatBytes,
+    formatArray,
+    ApplicationCommand,
+    Embed
+} from '../../../imports.js';
+  
+import { fetch } from 'undici';
 import os from 'node:os';
 import prettyMs from 'pretty-ms';
-import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
-import Embed from '../../../client/utils/Embed.js';
+  
+import pkg from '../../../../package.json' assert { type: 'json' };
 
 export default class NaokiSubCommands extends ApplicationCommand {
     constructor(client) {

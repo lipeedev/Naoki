@@ -1,6 +1,5 @@
-import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle, InteractionType } from 'discord.js';
-import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
-import Embed from '../../../client/utils/Embed.js';
+import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
+import { ApplicationCommand, Embed } from '../../../imports.js';
 
 const categories = {
     'pt-BR': {
