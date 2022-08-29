@@ -6,11 +6,13 @@ export default class ConfigSubCommands extends ApplicationCommand {
         super(client, {
             name: 'config',
             name_localizations: {
-                'pt-BR': 'configurar'
+                'pt-BR': 'configurar',
+                'en-US': 'config'
             },
             description: 'Command to configure other systems',
             description_localizations: {
-                'pt-BR': 'Comando para configurar outros sistemas do bot'
+                'pt-BR': 'Comando para configurar outros sistemas do bot',
+                'en-US': 'Command to configure other systems'
             },
             options:[
                 {
@@ -43,7 +45,15 @@ export default class ConfigSubCommands extends ApplicationCommand {
             
             guildOnly: true,
             devOnly: false,
-            displayInHelp: true
+            displayInHelp: true,
+            sub_localizations: {
+                'pt-BR': ['linguagem'],
+                'en-US': ['language']
+            },
+            usage_localizations: {
+                'pt-BR': 'linguagem: <idioma>',
+                'en-US': 'language: <language>'
+            }
         });
     }
     async runCommand({ interaction }, t) {

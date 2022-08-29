@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from 'discord.js';
+import { ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
 import { inspect } from 'util';
 import Embed from '../../../client/utils/Embed.js';
 import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';

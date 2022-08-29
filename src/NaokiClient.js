@@ -1,11 +1,12 @@
 import { Client, Collection } from 'discord.js';
 import { readdir } from 'node:fs/promises';
 import { Colors } from './client/utils/Logger.js';
-import { Emotes } from './client/utils/Emotes.js';
+import { Emotes as Emojis } from './client/utils/Emotes.js';
 import { Locale } from '../lib/Locale.js';
 import UserSchema from './database/UserSchema.js';
 import GuildSchema from './database/GuildSchema.js';
 import CommandSchema from './database/CommandSchema.js';
+import { Utils } from './client/utils/Utils.js';
 import { GatewayIntentBits, Partials } from 'discord.js';
 import { config } from 'dotenv';
 import pkg from 'mongoose';
@@ -22,7 +23,8 @@ export class NaokiClient extends Client {
         commands: CommandSchema
     };
     owners = ['930672718876147763', '343778106340802580'];
-    emotes = Emotes;
+    utils = Utils;
+    emotes = Emojis;
     t = null;
 
     constructor() {
@@ -72,7 +74,7 @@ export class NaokiClient extends Client {
                 const { default: VanillaCommandClass } = await import(`./commands/vanilla/${folder}/${command}`);
                 const cmd = new VanillaCommandClass(this);
 
-                cmd.type = 'vanilla'; cmd.options.category = folder;
+                cmd.type = 'vanilla'; cmd.category = folder;
                 await this.commands.vanilla.set(`${cmd.options.name}-prefix`, cmd);
                 this.logger('Commands, Vanilla', `${cmd.options.name[0].toUpperCase()}${cmd.options.name.slice(1)} command loaded successfully`);
             }
@@ -85,7 +87,8 @@ export class NaokiClient extends Client {
                 if (!command.endsWith('.js')) continue;
                 const { default: ApplicationCommandClass } = await import(`./commands/application/${folder}/${command}`);
                 const cmd = new ApplicationCommandClass(this);
-                cmd.type = 'application'; cmd.options.category = folder;
+                
+                cmd.type = 'application'; cmd.category = folder;
                 await this.commands.vanilla.set(cmd.options.name, cmd);
                 this.logger('Commands, Application', `${cmd.options.name[0].toUpperCase()}${cmd.options.name.slice(1)} command loaded successfully`);
             }

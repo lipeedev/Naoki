@@ -8,18 +8,20 @@ export default class GuildSubCommands extends ApplicationCommand {
         super(client, {
             name: 'guild',
             name_localizations: {
-                'pt-BR': 'servidor'
+                'pt-BR': 'servidor',
+                'en-US': 'guild'
             },
             description: 'Guild commands',
             description_localizations: {
-                'pt-BR': 'Comandos relacionados ao servidor'
+                'pt-BR': 'Comandos relacionados ao servidor',
+                'en-US': 'Commands related to guild'
             },
             category: 'util',
             options: [
                 {
                     name: 'info',
                     name_localizations: {
-                        'pt-BR': 'informacao'
+                        'pt-BR': 'info'
                     },
                     description: 'See information about the guild',
                     description_localizations: {
@@ -43,7 +45,15 @@ export default class GuildSubCommands extends ApplicationCommand {
                 }
             ],
 
-            displayInHelp: true
+            displayInHelp: true,
+            sub_localizations: {
+                'pt-BR': ['info'],
+                'en-US': ['info']
+            },
+            usage_localizations: {
+                'pt-BR': 'servidor: [id do servidor]',
+                'en-US': 'guild: [guild id]'
+            }
         });
     }
     async runCommand({ interaction }, t) {

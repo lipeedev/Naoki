@@ -1,8 +1,6 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ChannelType, version as DjsVersion, GatewayVersion } from 'discord.js';
 import pkg from '../../../../package.json' assert { type: 'json' };
 import { fetch } from 'undici'; 
-import { formatBytes } from '../../../functions/formatBytes.js';
-import { formatArray } from '../../../functions/formatArray.js';
 import os from 'node:os';
 import prettyMs from 'pretty-ms';
 import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
@@ -46,11 +44,15 @@ export default class NaokiSubCommands extends ApplicationCommand {
                 }
             ],
 
-            displayInHelp: true
+            displayInHelp: true,
+            sub_localizations: {
+                'pt-BR': ['info', 'ping'],
+                'en-US': ['info', 'ping']
+            }
         });
     }
 
-    async runCommand({ interaction }, t, language) {
+    async runCommand({ interaction, language }, t) {
         const parada1 = process.hrtime();
         await this.client.database.guilds.findOne({ guildId: interaction.guild.id });
         const parada2 = process.hrtime(parada1);
@@ -89,7 +91,7 @@ export default class NaokiSubCommands extends ApplicationCommand {
                         )
                         .setFooter({
                             text: t('commands:bot:info:footer', {
-                                creators_tag: formatArray(language, this.client.owners.map(id => this.client.users.cache.get(id).tag))
+                                creators_tag: this.client.utils.formatArray(language, this.client.owners.map(id => this.client.users.cache.get(id).tag), 1)
                             })
                         })
                 ],
@@ -111,8 +113,8 @@ export default class NaokiSubCommands extends ApplicationCommand {
                         nodejs_version: process.version,
                         gateway_version: GatewayVersion,
                         client_version: pkg.version,
-                        used_ram: formatBytes(Number(os.totalmem() - os.freemem())),
-                        total_ram: formatBytes(os.totalmem()),
+                        used_ram: this.client.utils.formatBytes(Number(os.totalmem() - os.freemem())),
+                        total_ram: this.client.utils.formatBytes(os.totalmem()),
                         cpu_model: os.cpus()[0].model
                     }),
                     ephemeral: true

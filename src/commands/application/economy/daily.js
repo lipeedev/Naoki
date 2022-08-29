@@ -5,16 +5,22 @@ export default class DailyCommand extends ApplicationCommand {
         super(client, {
             name: 'daily',
             name_localizations: {
-                'pt-BR': 'diário'
+                'pt-BR': 'diário',
+                'en-US': 'daily'
             },
             description: 'Collect your daily coin prize.',
             description_localizations: {
-                'pt-BR': 'Colete seu prêmio diário de moedas'
+                'pt-BR': 'Colete seu prêmio diário de moedas',
+                'en-US': 'Collect your daily coin prize'
             },
             
             displayInHelp: true,
             guildOnly: false,
-            devOnly: false
+            devOnly: false,
+            sub_localizations: {
+                'pt-BR': [],
+                'en-US': []
+            }
         });
     }
     async runCommand({ interaction }, t) {
