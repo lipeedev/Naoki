@@ -11,3 +11,8 @@ export { formatBytes } from "./functions/formatBytes.js"
 export { default as CommandSchema } from "./models/CommandSchema.js"
 export { default as GuildSchema } from "./models/GuildSchema.js"
 export { default as UserSchema } from "./models/UserSchema.js"
+
+//client utils
+export { default as Embed } from "./client/utils/Embed.js"
+export { default as Emotes } from "./client/utils/Logger.js"
+export { default as Logger } from "./client/utils/Emotes.js"
