@@ -2,50 +2,59 @@ import { ApplicationCommandOptionType } from 'discord.js';
 import { ApplicationCommand, Embed, Features } from '../../../imports.js';
 
 export default class GuildSubCommands extends ApplicationCommand {
-  constructor(client) {
-    super(client, {
-      name: 'guild',
-      name_localizations: {
-        'pt-BR': 'servidor'
-      },
-      description: 'Guild commands',
-      description_localizations: {
-        'pt-BR': 'Comandos relacionados ao servidor'
-      },
-      category: 'util',
-      options: [
-        {
-          name: 'info',
-          name_localizations: {
-            'pt-BR': 'informacao'
-          },
-          description: 'See information about the guild',
-          description_localizations: {
-            'pt-BR': 'Veja informações sobre o servidor'
-          },
-          type: ApplicationCommandOptionType.Subcommand,
-          options: [
-            {
-              name: 'guild',
-              name_localizations: {
-                'pt-BR': 'servidor'
-              },
-              description: 'The ID of the Guild',
-              description_localizations: {
-                'pt-BR': 'O ID do Servidor'
-              },
-              type: ApplicationCommandOptionType.String,
-              required: false
+    constructor(client) {
+        super(client, {
+            name: 'guild',
+            name_localizations: {
+                'pt-BR': 'servidor',
+                'en-US': 'guild'
+            },
+            description: 'Guild commands',
+            description_localizations: {
+                'pt-BR': 'Comandos relacionados ao servidor',
+                'en-US': 'Commands related to guild'
+            },
+            category: 'util',
+            options: [
+                {
+                    name: 'info',
+                    name_localizations: {
+                        'pt-BR': 'info'
+                    },
+                    description: 'See information about the guild',
+                    description_localizations: {
+                        'pt-BR': 'Veja informações sobre o servidor'
+                    },
+                    type: ApplicationCommandOptionType.Subcommand,
+                    options: [
+                        {
+                            name: 'guild',
+                            name_localizations: {
+                                'pt-BR': 'servidor'
+                            },
+                            description: 'The ID of the Guild',
+                            description_localizations: {
+                                'pt-BR': 'O ID do Servidor'
+                            },
+                            type: ApplicationCommandOptionType.String,
+                            required: false
                         }
                     ]
                 }
             ],
-
-      displayInHelp: true
-    });
-  }
-  async runCommand({ interaction }, t) {
-    const guildId = interaction.options.getString('guild') || interaction.guildId;
+            displayInHelp: true,
+            sub_localizations: {
+                'pt-BR': ['info'],
+                'en-US': ['info']
+            },
+            usage_localizations: {
+                'pt-BR': 'servidor: [id do servidor]',
+                'en-US': 'guild: [guild id]'
+            }
+        });
+    }
+    async runCommand({ interaction }, t) {
+        const guildId = interaction.options.getString('guild') || interaction.guildId;
 
     switch (interaction.options.getSubcommand()) {
       case 'info': {

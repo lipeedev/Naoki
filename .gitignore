@@ -1,4 +1,5 @@
 package-lock.json
+.gitignore
 saves
 node_modules
 src/languages
