@@ -1,5 +1,5 @@
 import { ApplicationCommandOptionType } from 'discord.js';
-import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
+import {ApplicationCommand} from '../../../imports.js';
 
 export default class ConfigSubCommands extends ApplicationCommand {
     constructor(client) {

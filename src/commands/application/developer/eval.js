@@ -1,7 +1,6 @@
 import { ApplicationCommandOptionType } from 'discord.js';
 import { inspect } from 'util';
-import Embed from '../../../client/utils/Embed.js';
-import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
+import{ApplicationCommand, Embed} from '../../../imports.js';
 
 export default class EvaluateCommand extends ApplicationCommand {
     constructor(client) {

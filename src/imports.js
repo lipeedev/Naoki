@@ -14,5 +14,9 @@ export { default as UserSchema } from "./models/UserSchema.js"
 
 //client utils
 export { default as Embed } from "./client/utils/Embed.js"
-export { default as Emotes } from "./client/utils/Logger.js"
-export { default as Logger } from "./client/utils/Emotes.js"
+export {  Emotes } from "./client/utils/Logger.js"
+export { Collors } from "./client/utils/Emotes.js"
+
+//objects
+export {  GatewayIntents } from "./client/objects/GatewayIntentsObject.js"
+export { Features } from "./client/utils/GuildFeaturesObject.js"
