@@ -20,9 +20,8 @@ export default class MessageCreateEvent extends Event {
         const prefix = mentionRegex?.[0] ? String(mentionRegex) : guild.prefix;
 
         t = await this.client.getTranslate(message.guild.id);
-        if (message.content.match(ClientMention(this.client.user.id))) return message.reply(t('client:mentioned', { 'author-tag': message.author.tag, prefix: prefix }));
+        if (message.content.match(ClientMention(this.client.user.id))) return message.reply(t('client:mentioned', { 'author-tag': message.author.tag, prefix: guild?.prefix || 'n.' }));
         if (!message.content.toLowerCase().startsWith(prefix?.toLowerCase())) return;
-
         const args = message.content.slice(prefix?.length).trim().split(/ +/g);
         const cmd = args.shift().toLowerCase();
 
