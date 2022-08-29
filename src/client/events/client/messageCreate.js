@@ -14,8 +14,10 @@ export default class MessageCreateEvent extends Event {
     async runEvent(message) {
         if (message.author.bot || !message.guild) return;
 
+        const mentionRegex = message.content.match(new RegExp(`^<@!?(${this.client.user.id})>`, 'gi'));
         const guild = await this.client.getData(message.guild.id, 'guild');
-        const { prefix } = guild;
+        
+        const prefix = mentionRegex?.[0] ? String(mentionRegex) : guild.prefix;
 
         t = await this.client.getTranslate(message.guild.id);
         if (message.content.match(ClientMention(this.client.user.id))) return message.reply(t('client:mentioned', { 'author-tag': message.author.tag, prefix: prefix }));
