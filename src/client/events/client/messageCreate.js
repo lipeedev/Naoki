@@ -16,12 +16,13 @@ export default class MessageCreateEvent extends Event {
 
         const mentionRegex = message.content.match(new RegExp(`^<@!?(${this.client.user.id})>`, 'gi'));
         const guild = await this.client.getData(message.guild.id, 'guild');
-        
         const prefix = mentionRegex?.[0] ? String(mentionRegex) : guild.prefix;
+        const { lang } = guild;
 
         t = await this.client.getTranslate(message.guild.id);
         if (message.content.match(ClientMention(this.client.user.id))) return message.reply(t('client:mentioned', { 'author-tag': message.author.tag, prefix: guild?.prefix || 'n.' }));
         if (!message.content.toLowerCase().startsWith(prefix?.toLowerCase())) return;
+
         const args = message.content.slice(prefix?.length).trim().split(/ +/g);
         const cmd = args.shift().toLowerCase();
 
@@ -32,7 +33,7 @@ export default class MessageCreateEvent extends Event {
             const cmdD = await this.client.database.commands.findOne({ cmdName: command.options.name });
             if (!cmdD) {
                 await this.client.database.commands.create({ cmdName: command.options.name });
-                command.runCommand({ message, args }, t);
+                command.runCommand({ message, args, lang }, t, cmd);
 
                 return;
             }
@@ -40,7 +41,7 @@ export default class MessageCreateEvent extends Event {
             cmdD.usos = cmdD.usos + 1;
             cmdD.save();
 
-            await command.runCommand({ message, args }, t);
+            await command.runCommand({ message, args, lang }, t, cmd);
         } catch (err) { console.log(err); }
     }
 }
