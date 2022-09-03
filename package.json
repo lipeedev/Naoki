@@ -5,7 +5,8 @@
     "glob": "^8.0.3",
     "mongoose": "^6.5.2",
     "pretty-ms": "^8.0.0",
-    "undici": "^5.9.1"
+    "undici": "^5.9.1",
+    "voidbots": "^2.6.3"
   },
   "devDependencies": {
     "@babel/core": "^7.18.13",
