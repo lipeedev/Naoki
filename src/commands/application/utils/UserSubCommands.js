@@ -5,9 +5,10 @@ import {
     ButtonStyle,
     ComponentType
 } from 'discord.js';
-  
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
+import Embed from '../../../client/utils/Embed.js';
+import { GatewayIntents } from '../../../client/objects/GatewayIntentsObject.js';
 import { fetch } from 'undici';
-import {ApplicationCommand, Embed, GatewayIntents} from '../../../imports.js';
 
 export default class UserSubCommands extends ApplicationCommand {
     constructor(client) {
@@ -108,7 +109,6 @@ export default class UserSubCommands extends ApplicationCommand {
                 Application.bot_require_code_grant ? ApplicationIntents.push(`**${t('commands:user:info:bot:intents:code_grant')}**: ${t('undefineds:questions:yes')}`) : ApplicationIntents.push(`**${t('commands:user:info:bot:intents:code_grant')}**: ${t('undefineds:questions:no')}`);
 
                 const components = [];
-
                 if (Application.custom_install_url || Application.privacy_policy_url || Application.terms_of_service_url) {
                     components.push(new ActionRowBuilder());
 
@@ -189,15 +189,14 @@ export default class UserSubCommands extends ApplicationCommand {
                     ],
                     components: (interaction.guild.members.cache.has(user.id) && interaction.guild.members.cache.get(user.id).avatarURL()) ? [
                         new ActionRowBuilder().setComponents(
-                            new ButtonBuilder().setCustomId('ver-avatar').setLabel(t('commands:user:info:button:avatar:see')).setStyle(ButtonStyle.Primary)
+                            new ButtonBuilder().setCustomId('ver-avatar').setLabel(t('commands:user:info:button:avatar:see')).setStyle(ButtonStyle.Secondary)
                         )
                     ] : [
                         new ActionRowBuilder().setComponents(
-                            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 256 }))
+                            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 1024 }))
                         )
                     ], fetchReply: true
                 });
-
 
                 const coletor = m.createMessageComponentCollector({ componentType: ComponentType.Button, time: 60_000 * 2, filter: c => c.user.id === interaction.user.id });
 
@@ -205,17 +204,17 @@ export default class UserSubCommands extends ApplicationCommand {
                     collected.reply({
                         ephemeral: true,
                         embeds: [
-                            new Embed(user).setTitle(t('commands:user:info:button:avatar:title:global', { user: user.tag }))
-                                .setImage(user.displayAvatarURL({ extension: 'png', size: 256 }))
+                            new Embed(user).setAuthor({ name: t('commands:user:info:button:avatar:title:global', { user: user.tag }) })
+                                .setImage(user.displayAvatarURL({ extension: 'png', size: 1024 }))
                         ],
-                        components: interaction.guild.members.cache.get(user.id).avatarURL() ? [
+                        components: interaction.guild.members.cache.get(user.id)?.avatarURL() ? [
                             new ActionRowBuilder().setComponents(
-                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 256 })),
-                                new ButtonBuilder().setCustomId('ver-avatar-servidor').setStyle(ButtonStyle.Primary).setLabel(t('commands:user:info:button:avatar:local'))
+                                new ButtonBuilder().setCustomId('ver-avatar-servidor').setStyle(ButtonStyle.Primary).setLabel(t('commands:user:info:button:avatar:local')),
+                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 1024 }))
                             )
                         ] : [
                             new ActionRowBuilder().setComponents(
-                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 256 }))
+                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 1024 }))
                             )
                         ], fetchReply: true
 
@@ -227,26 +226,26 @@ export default class UserSubCommands extends ApplicationCommand {
 
                                     collected.update({
                                         embeds: [
-                                            new Embed(user).setTitle(t('commands:user:info:button:avatar:title:local', { user: user.tag }))
-                                                .setImage(interaction.guild.members.cache.get(user.id).avatarURL({ extension: 'png', size: 256 }))
+                                            new Embed(user).setAuthor({ name: t('commands:user:info:button:avatar:title:local', { user: (interaction.guild.members.cache.get(user.id)?.nickname || user.tag) }) })
+                                                .setImage(interaction.guild.members.cache.get(user.id).avatarURL({ extension: 'png', size: 1024 }))
                                         ],
                                         components: [
                                             new ActionRowBuilder().setComponents(
-                                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(interaction.guild.members.cache.get(user.id).avatarURL({ extension: 'png', size: 256 })),
-                                                new ButtonBuilder().setCustomId('ver-avatar-global').setStyle(ButtonStyle.Primary).setLabel(t('commands:user:info:button:avatar:global'))
+                                                new ButtonBuilder().setCustomId('ver-avatar-global').setStyle(ButtonStyle.Primary).setLabel(t('commands:user:info:button:avatar:global')),
+                                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(interaction.guild.members.cache.get(user.id).avatarURL({ extension: 'png', size: 1024 }))
                                             )
                                         ]
                                     });
                                 } else {
                                     collected.update({
                                         embeds: [
-                                            new Embed(user).setTitle(t('commands:user:info:button:avatar:title:global', { user: user.tag }))
-                                                .setImage(user.displayAvatarURL({ extension: 'png', size: 256 }))
+                                            new Embed(user).setAuthor({ name: t('commands:user:info:button:avatar:title:global', { user: user.tag }) })
+                                                .setImage(user.displayAvatarURL({ extension: 'png', size: 1024 }))
                                         ],
                                         components: [
                                             new ActionRowBuilder().setComponents(
-                                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 256 })),
-                                                new ButtonBuilder().setCustomId('ver-avatar-servidor').setStyle(ButtonStyle.Primary).setLabel(t('commands:user:info:button:avatar:local'))
+                                                new ButtonBuilder().setCustomId('ver-avatar-servidor').setStyle(ButtonStyle.Primary).setLabel(t('commands:user:info:button:avatar:local')),
+                                                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel(t('commands:user:info:button:avatar:browser')).setURL(user.displayAvatarURL({ extension: 'png', size: 1024 }))
                                             )
                                         ]
                                     });

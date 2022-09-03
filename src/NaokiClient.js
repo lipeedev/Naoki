@@ -1,12 +1,12 @@
 import { Client, Collection } from 'discord.js';
 import { readdir } from 'node:fs/promises';
-import { Colors } from './client/utils/Logger.js';
-import { Emotes as Emojis } from './client/utils/Emotes.js';
 import { Locale } from '../lib/Locale.js';
+import { Utils } from './client/utils/Utils.js';
+import { Colors} from './client/utils/Logger.js';
+import { Emotes as Emojis } from './client/utils/Emotes.js';
+import CommandSchema from './database/CommandSchema.js';
 import UserSchema from './database/UserSchema.js';
 import GuildSchema from './database/GuildSchema.js';
-import CommandSchema from './database/CommandSchema.js';
-import { Utils } from './client/utils/Utils.js';
 import { GatewayIntentBits, Partials } from 'discord.js';
 import { config } from 'dotenv';
 import pkg from 'mongoose';

@@ -1,4 +1,4 @@
-import {ApplicationCommand} from'../../../imports.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 
 export default class DailyCommand extends ApplicationCommand {
     constructor(client) {

@@ -1,8 +1,9 @@
 import { ApplicationCommandOptionType, ActionRowBuilder, ButtonBuilder, ButtonStyle } from 'discord.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 import { inspect } from 'util';
-import{ApplicationCommand, Embed} from '../../../imports.js';
+import Embed from '../../../client/utils/Embed.js';
 
-export default class EvaluateCommand extends ApplicationCommand {
+export default class DeveloperSubCommands extends ApplicationCommand {
     constructor(client) {
         super(client, {
             name: 'dev',

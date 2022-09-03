@@ -1,5 +1,6 @@
 import { ActionRowBuilder, ApplicationCommandOptionType, ButtonBuilder, ButtonStyle } from 'discord.js';
-import { ApplicationCommand, Embed } from '../../../imports.js';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
+import Embed from '../../../client/utils/Embed.js';
 
 const categories = {
     'pt-BR': {
@@ -10,7 +11,7 @@ const categories = {
     'en-US': {
         'utils': 'Utility',
         'administration': 'Administration',
-        'economy': 'Economia'
+        'economy': 'Economy'
     }
 };
 
@@ -42,8 +43,8 @@ export default class HelpCommand extends ApplicationCommand {
         for (const categoria of categorias) {
             commands.push(
                 this.client.commands.vanilla
-                    .filter(cmd => cmd.category === categoria && !!cmd.options.displayInHelp)
-                    .map(cmd => `**/${cmd.options?.name_localizations ? cmd.options.name_localizations[lang] : cmd.options.cls}${cmd.options.sub_localizations ? ' ' + cmd.options.sub_localizations[lang].join(' - ') : ''}**: ${cmd.options.description_localizations ? cmd.options.description_localizations[lang] : cmd.options.description || t('commands:help:no_description')}\n<:seta:1011445794064322621> **${t('commands:help:usage')}:** ${cmd.options.usage_localizations ? cmd.options.usage_localizations[lang] : `/${cmd.options?.name_localizations ? cmd.options.name_localizations[lang] : cmd.options.name}`}`)
+                    .filter(cmd => cmd.type == 'application' && cmd.category == categoria && !!cmd.options.displayInHelp)
+                    .map(cmd => `**/${cmd.options?.name_localizations ? cmd.options.name_localizations[lang] : cmd.options.name}${cmd.options.sub_localizations ? ' ' + cmd.options.sub_localizations[lang].join(' - ') : ''}**: ${cmd.options.description_localizations ? cmd.options.description_localizations[lang] : cmd.options.description || t('commands:help:no_description')}\n<:seta:1011445794064322621> **${t('commands:help:usage')}:** ${cmd.options.usage_localizations ? cmd.options.usage_localizations[lang] : `/${cmd.options?.name_localizations ? cmd.options.name_localizations[lang] : cmd.options.name}`}`)
             );
         }
 
@@ -96,7 +97,7 @@ export default class HelpCommand extends ApplicationCommand {
             filter: (int) => {
                 if (['voltar', 'avancar', 'ver'].includes(int.customId)) {
                     if (int.user.id !== interaction.user.id) {
-                        int.reply({ ephemeral: true, content: t('commands:help:embed:pages:button:only_author') });
+                        int.reply({ ephemeral: true, content: t('interactions:buttons:only_author') });
                         return false;
                     }
                     return true;

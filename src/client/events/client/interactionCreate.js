@@ -14,9 +14,10 @@ export default class InteractionCreateEvent extends Event {
         if (!interaction.guildId || interaction.type !== 2) return;
 
         const guild = await this.client.getData(interaction.guild.id, 'guild');
-        const lang = guild.lang;
+        let lang = interaction.locale;
 
         t = await this.client.getTranslate(interaction.locale);
+        if (t() == 'null') lang = guild.lang;
         if (t() == 'null') t = await this.client.getTranslate(interaction.guild.id);
 
         const command = this.client.commands.vanilla.filter(cmd => cmd.type === 'application').get(interaction.commandName);

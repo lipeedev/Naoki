@@ -6,19 +6,12 @@ import {
     version as DjsVersion,
     GatewayVersion
 } from 'discord.js';
-  
-import {
-    formatBytes,
-    formatArray,
-    ApplicationCommand,
-    Embed
-} from '../../../imports.js';
-  
 import { fetch } from 'undici';
-import os from 'node:os';
+import ApplicationCommand from '../../../structures/ApplicationCommandStructure.js';
 import prettyMs from 'pretty-ms';
-  
+import Embed from '../../../client/utils/Embed.js';
 import pkg from '../../../../package.json' assert { type: 'json' };
+import os from 'node:os';
 
 export default class NaokiSubCommands extends ApplicationCommand {
     constructor(client) {
@@ -88,7 +81,7 @@ export default class NaokiSubCommands extends ApplicationCommand {
                                     guild_count: Number(this.client.guilds.cache.size).toLocaleString('en-us'),
                                     user_count: Number(this.client.guilds.cache.map(gld => gld.memberCount).reduce((a, b) => a + b)).toLocaleString('en-us'),
                                     channel_count: Number(this.client.channels.cache.filter(chn => chn.type !== ChannelType.DM).size).toLocaleString('en-us'),
-                                    command_count: Number(this.client.commands.vanilla.filter(cmd => cmd.options.cmdType === 'application').size).toLocaleString('en-us')
+                                    command_count: Number(this.client.commands.vanilla.filter(cmd => cmd.type === 'application').size).toLocaleString('en-us')
                                 }),
                                 inline: true
                             },
